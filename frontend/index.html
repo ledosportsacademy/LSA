@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ledo Sports Academy - Management System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="loading.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -627,7 +628,13 @@
         <span id="messageText"></span>
     </div>
 
+    <!-- Loading Indicator -->
+    <div class="loading-indicator hidden" id="loadingIndicator">
+        <div class="spinner"></div>
+    </div>
+
     <script src="api.js"></script>
+    <script src="loading.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
