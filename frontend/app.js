@@ -2499,12 +2499,26 @@ function editActivity(id) {
 
 function deleteActivity(id) {
   if (confirm('Are you sure you want to delete this activity?')) {
-    appData.activities = appData.activities.filter(function(a) { return a.id !== id; });
-    renderActivities();
-    renderHomeEvents();
-    renderRecentActivities();
-    updateDashboardMetrics();
-    showMessage('Activity deleted successfully');
+    // Show loading indicator
+    showLoadingIndicator();
+    
+    // Call API to delete activity
+    API.activity.delete(id)
+      .then(function() {
+        // Update local data after successful API call
+        appData.activities = appData.activities.filter(function(a) { return a.id !== id; });
+        renderActivities();
+        renderHomeEvents();
+        renderRecentActivities();
+        updateDashboardMetrics();
+        showMessage('Activity deleted successfully');
+      })
+      .catch(function(error) {
+        showMessage('Error deleting activity: ' + error.message, 'error');
+      })
+      .finally(function() {
+        hideLoadingIndicator();
+      });
   }
 }
 
@@ -2608,12 +2622,26 @@ function editMember(id) {
 
 function deleteMember(id) {
   if (confirm('Are you sure you want to delete this member?')) {
-    appData.members = appData.members.filter(function(m) { return m.id !== id; });
-    appData.weeklyFees = appData.weeklyFees.filter(function(f) { return f.memberId !== id; });
-    renderMembers();
-    renderWeeklyFees();
-    updateDashboardMetrics();
-    showMessage('Member deleted successfully');
+    // Show loading indicator
+    showLoadingIndicator();
+    
+    // Call API to delete member
+    API.member.delete(id)
+      .then(function() {
+        // Update local data after successful API call
+        appData.members = appData.members.filter(function(m) { return m.id !== id; });
+        appData.weeklyFees = appData.weeklyFees.filter(function(f) { return f.memberId !== id; });
+        renderMembers();
+        renderWeeklyFees();
+        updateDashboardMetrics();
+        showMessage('Member deleted successfully');
+      })
+      .catch(function(error) {
+        showMessage('Error deleting member: ' + error.message, 'error');
+      })
+      .finally(function() {
+        hideLoadingIndicator();
+      });
   }
 }
 
@@ -2684,12 +2712,26 @@ function editDonation(id) {
 
 function deleteDonation(id) {
   if (confirm('Are you sure you want to delete this donation record?')) {
-    appData.donations = appData.donations.filter(function(d) { return d.id !== id; });
-    renderDonations();
-    updateTotalDonations();
-    updateDashboardMetrics();
-    renderCharts();
-    showMessage('Donation deleted successfully');
+    // Show loading indicator
+    showLoadingIndicator();
+    
+    // Call API to delete donation
+    API.donation.delete(id)
+      .then(function() {
+        // Update local data after successful API call
+        appData.donations = appData.donations.filter(function(d) { return d.id !== id; });
+        renderDonations();
+        updateTotalDonations();
+        updateDashboardMetrics();
+        renderCharts();
+        showMessage('Donation deleted successfully');
+      })
+      .catch(function(error) {
+        showMessage('Error deleting donation: ' + error.message, 'error');
+      })
+      .finally(function() {
+        hideLoadingIndicator();
+      });
   }
 }
 
@@ -2768,12 +2810,26 @@ function editExpense(id) {
 
 function deleteExpense(id) {
   if (confirm('Are you sure you want to delete this expense record?')) {
-    appData.expenses = appData.expenses.filter(function(e) { return e.id !== id; });
-    renderExpenses();
-    updateTotalExpenses();
-    updateDashboardMetrics();
-    renderCharts();
-    showMessage('Expense deleted successfully');
+    // Show loading indicator
+    showLoadingIndicator();
+    
+    // Call API to delete expense
+    API.expense.delete(id)
+      .then(function() {
+        // Update local data after successful API call
+        appData.expenses = appData.expenses.filter(function(e) { return e.id !== id; });
+        renderExpenses();
+        updateTotalExpenses();
+        updateDashboardMetrics();
+        renderCharts();
+        showMessage('Expense deleted successfully');
+      })
+      .catch(function(error) {
+        showMessage('Error deleting expense: ' + error.message, 'error');
+      })
+      .finally(function() {
+        hideLoadingIndicator();
+      });
   }
 }
 
@@ -2855,9 +2911,23 @@ function editExperience(id) {
 
 function deleteExperience(id) {
   if (confirm('Are you sure you want to delete this experience?')) {
-    appData.experiences = appData.experiences.filter(function(e) { return e.id !== id; });
-    renderExperiences();
-    showMessage('Experience deleted successfully');
+    // Show loading indicator
+    showLoadingIndicator();
+    
+    // Call API to delete experience
+    API.experience.delete(id)
+      .then(function() {
+        // Update local data after successful API call
+        appData.experiences = appData.experiences.filter(function(e) { return e.id !== id; });
+        renderExperiences();
+        showMessage('Experience deleted successfully');
+      })
+      .catch(function(error) {
+        showMessage('Error deleting experience: ' + error.message, 'error');
+      })
+      .finally(function() {
+        hideLoadingIndicator();
+      });
   }
 }
 
@@ -2948,17 +3018,31 @@ function editGalleryItem(id) {
 
 function deleteGalleryItem(id) {
   if (confirm('Are you sure you want to delete this photo?')) {
-    appData.gallery = appData.gallery.filter(function(g) { return g.id !== id; });
-    renderGallery();
+    // Show loading indicator
+    showLoadingIndicator();
     
-    // Update slideshow if a top 5 image was deleted
-    updateHeroSlidesFromGallery();
-    renderHeroSlideshow();
-    if (isCurrentlyOnHome) {
-      startSlideshow();
-    }
-    
-    showMessage('Photo deleted successfully');
+    // Call API to delete gallery item
+    API.gallery.delete(id)
+      .then(function() {
+        // Update local data after successful API call
+        appData.gallery = appData.gallery.filter(function(g) { return g.id !== id; });
+        renderGallery();
+        
+        // Update slideshow if a top 5 image was deleted
+        updateHeroSlidesFromGallery();
+        renderHeroSlideshow();
+        if (isCurrentlyOnHome) {
+          startSlideshow();
+        }
+        
+        showMessage('Photo deleted successfully');
+      })
+      .catch(function(error) {
+        showMessage('Error deleting photo: ' + error.message, 'error');
+      })
+      .finally(function() {
+        hideLoadingIndicator();
+      });
   }
 }
 
@@ -2972,17 +3056,37 @@ function togglePaymentStatus(memberId, paymentDate) {
   if (!payment) return;
   
   // Cycle through statuses: pending -> paid -> overdue -> pending
+  let newStatus;
   if (payment.status === 'pending') {
-    payment.status = 'paid';
+    newStatus = 'paid';
   } else if (payment.status === 'paid') {
-    payment.status = 'overdue';
+    newStatus = 'overdue';
   } else {
-    payment.status = 'pending';
+    newStatus = 'pending';
   }
   
-  renderWeeklyFees();
-  updateDashboardMetrics();
-  showMessage('Payment status updated to ' + payment.status);
+  // Show loading indicator
+  showLoadingIndicator();
+  
+  // Call API to update payment status
+  API.weeklyFee.updatePaymentStatus(feeRecord._id, payment._id, { status: newStatus })
+    .then(function(updatedFeeRecord) {
+      // Update local data with the response from the server
+      const index = appData.weeklyFees.findIndex(function(f) { return f._id === updatedFeeRecord._id; });
+      if (index !== -1) {
+        appData.weeklyFees[index] = updatedFeeRecord;
+      }
+      
+      renderWeeklyFees();
+      updateDashboardMetrics();
+      showMessage('Payment status updated to ' + newStatus);
+    })
+    .catch(function(error) {
+      showMessage('Error updating payment status: ' + error.message, 'error');
+    })
+    .finally(function() {
+      hideLoadingIndicator();
+    });
 }
 
 // PDF Export Functions (simplified for brevity)
