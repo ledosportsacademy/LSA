@@ -33,6 +33,41 @@ A comprehensive web application for managing Ledo Sports Academy operations, inc
 - Node.js (v14 or higher)
 - MongoDB (local or Atlas)
 
+### Performance Optimizations
+
+This application includes several performance optimizations:
+
+- **Compression**: Uses compression middleware to reduce payload size
+- **Caching**: Implements proper cache headers for static assets
+- **Security**: Uses Helmet for security headers
+- **Rate Limiting**: Prevents abuse with rate limiting
+- **MongoDB Connection Pooling**: Optimizes database connections
+- **Lazy Loading**: Images are lazy loaded for better performance
+- **Resource Hints**: Uses preconnect and dns-prefetch for external resources
+- **Deferred JavaScript**: Non-critical scripts are deferred
+- **Minification**: CSS and JS files are minified for production
+- **Performance Monitoring**: Built-in monitoring for system resources
+
+### Production Build
+
+To create a production-ready build with minified assets:
+
+```
+npm run build
+```
+
+This will create minified versions of all CSS and JS files in the `frontend/dist` directory and generate a production HTML file.
+
+### Monitoring
+
+The application includes a monitoring server that provides system and application metrics. To use it:
+
+1. Set the `MONITOR_PORT` environment variable (defaults to 3001)
+2. Access the monitoring endpoints with basic authentication:
+   - `/api/system` - System information
+   - `/api/process` - Node.js process information
+   - `/api/heap` - V8 heap statistics
+
 ### Installation
 
 1. Clone the repository
@@ -64,6 +99,22 @@ A comprehensive web application for managing Ledo Sports Academy operations, inc
    ```
 
 3. Access the application at `http://localhost:3000`
+
+### Deployment on Render
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Configure the following settings:
+   - **Environment**: Node
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Environment Variables**: Add the same variables as in your `.env` file
+
+4. For optimal performance on Render:
+   - Enable auto-scaling if available
+   - Choose an appropriate instance type based on your traffic
+   - Set up a MongoDB Atlas database in the same region as your Render service
+   - Use a CDN for static assets if possible
 
 ## API Endpoints
 

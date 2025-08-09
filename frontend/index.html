@@ -3,13 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Ledo Sports Academy - Management System for sports activities, members, donations, and more">
     <title>Ledo Sports Academy - Management System</title>
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="loading.css" as="style">
+    
+    <!-- CSS files -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="loading.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Defer non-critical JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
 </head>
 <body>
+    <!-- Add loading indicator -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-spinner"></div>
+    </div>
+    
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -634,7 +659,19 @@
     </div>
 
     <script src="api.js"></script>
-    <script src="loading.js"></script>
     <script src="app.js"></script>
+    <script src="loading.js"></script>
+    <script src="optimize.js"></script>
+    
+    <!-- Add inline script for critical rendering path -->
+    <script>
+        // Hide page loader as soon as possible
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading="lazy" to all images
+            document.querySelectorAll('img:not([loading])').forEach(function(img) {
+                img.setAttribute('loading', 'lazy');
+            });
+        });
+    </script>
 </body>
 </html>
